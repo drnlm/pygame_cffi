@@ -42,8 +42,9 @@ install:
   - "python --version"
   - "powershell appveyor\\install.ps1"
   - "pip install -e ."
-  - ps: "ls dist"
+  - "python setup.py build"
   - ps: "ls "
+  - ps: "ls dist"
 
 # Appveyor's build step is specific to .NET projects, so we build in the
 # install step instead.
