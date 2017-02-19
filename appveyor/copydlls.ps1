@@ -6,7 +6,7 @@ function CopyPrebuiltDLLs () {
     $prebuilt_dir = "prebuilt-"+$target
 
     $basedir = $pwd.Path + "\"
-    $dlls = $basedir + $prebuilt_dir + "\" + "*.dll"
+    $dlls = $basedir + $prebuilt_dir + "\lib\" + "*.dll"
     $destpath = $basedir + "pygame"
 
     Write-Host "dlls from" $dlls
