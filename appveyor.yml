@@ -1,8 +1,8 @@
 environment:
 
   global:
-     - SDL_VIDEODRIVER: "dummy"
-       SDL_AUDIODRIVER: "disk"
+     SDL_VIDEODRIVER: "dummy"
+     SDL_AUDIODRIVER: "disk"
 
 
   matrix:
