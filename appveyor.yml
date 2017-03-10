@@ -53,6 +53,13 @@ build: false
 test_script:
   - "python -m test"
 
-artifacts:
-  - path: dist\*
-    name: wheel
+
+# Appveyor's default artifact publishing only works if the build is successful,
+# but we want artifacts from failures until the windows issues are resolved,
+# so we force the issue in on_finish
+on_finish:
+   appveyor PushArtifact dist\*whl
+
+# Default to revert to once we have everything working
+#artifacts:
+#  - path: dist\*
