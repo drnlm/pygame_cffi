@@ -241,6 +241,10 @@ class EventModuleTest(unittest.TestCase):
           # pygame.event.set_grab(bool): return None
           # control the sharing of input devices with other applications
 
+        # Skip the test if we don't have a display
+        if os.environ.get('SDL_VIDEODRIVER') == 'dummy':
+            return
+
         pygame.event.set_grab(True)
         self.assert_(pygame.event.get_grab())
         pygame.event.set_grab(False)
