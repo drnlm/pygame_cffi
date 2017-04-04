@@ -96,7 +96,7 @@ def test_conformance(test_func, verbose=False):
         # Pixel by pixel comparison.
         # This is slow, but avoids extra dependancies
         from pygame.surflock import locked
-        orig_surf = orig_surf.convert(test_surf)
+        #orig_surf = orig_surf.convert(test_surf)
         with locked(orig_surf._c_surface):
             with locked(test_surf._c_surface):
                 for x in range(800):
@@ -107,10 +107,8 @@ def test_conformance(test_func, verbose=False):
                             # Flag as pure white for easier visual inspection
                             diff_surf.set_at(point, (255, 255, 255, 255))
         if differences:
-            if verbose:
-                print("conformance test %s FAILED for depth %d.\n"
-                      "  Difference saved to %s" % (test_name, depth,
-                                                    diffname))
+            print("conformance test %s FAILED for depth %d.\n"
+                  "  Difference saved to %s" % (test_name, depth, diffname))
             image.save(diff_surf, diffname)
             passed = False
         else:
