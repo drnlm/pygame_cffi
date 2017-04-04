@@ -11,6 +11,8 @@ python:
 #- pypy3
 matrix:
    include:
+      # We force the python version to get a USC4 built, so pip finds the
+      # right wheel.
       - python: "2.7"
         env: RUN_CONFORMANCE="y"
       - python: "3.6"
@@ -36,6 +38,8 @@ script:
       else
          # We bounce around a bit so we can run gen_conformance with
          # pygame, and test_conformance with pygame_cffi
+         python -c 'import sys; print(sys.version)'
+         python -c 'import sys; print("USC4" if sys.maxunicode > 65536 else "USC2"); print(sys.maxunicode)'
          cd conformance
          pip uninstall -y pygame-cffi
          pip install pygame
