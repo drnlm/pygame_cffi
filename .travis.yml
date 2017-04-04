@@ -12,8 +12,8 @@ python:
 matrix:
    include:
       # We force the python version to get a USC4 built, so pip finds the
-      # right wheel.
-      - python: "2.7"
+      # right wheel. See many, many issues on the travis-ci issue tracker
+      - python: "2.7.13"
         env: RUN_CONFORMANCE="y"
       - python: "3.6"
         env: RUN_CONFORMANCE="y"
