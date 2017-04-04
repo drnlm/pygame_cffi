@@ -30,22 +30,24 @@ before_install:
 
 install: pip install -e .
 script:
-   - if [ -z "$RUN_CONFORMANCE" ]; then
-         AUDIODEV=null xvfb-run python -m test
-     else
-        # We bounce around a bit so we can run gen_conformance with
-        # pygame, and test_conformance with pygame_cffi
-        cd conformance
-        pip uninstall -y pygame-cffi
-        pip install pygame
-        AUDIODEV=null xvfb-run python gen_conformance.py
-        # Bounce back to pygame-cffi
-        pip uninstall -y pygame
-        cd ..
-        pip install -e .
-        cd conformance
-        AUDIODEV=null xvfb-run python test_conformance.py
-     fi
+   - |
+      if [ -z "$RUN_CONFORMANCE" ]; then
+          AUDIODEV=null xvfb-run python -m test
+      else
+         # We bounce around a bit so we can run gen_conformance with
+         # pygame, and test_conformance with pygame_cffi
+         cd conformance
+         pip uninstall -y pygame-cffi
+         pip install pygame
+         AUDIODEV=null xvfb-run python gen_conformance.py
+         # Bounce back to pygame-cffi
+         pip uninstall -y pygame
+         cd ..
+         pip install -e .
+         cd conformance
+         AUDIODEV=null xvfb-run python test_conformance.py
+      fi
+
 sudo: false
 addons:
   apt:
