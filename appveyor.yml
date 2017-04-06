@@ -77,21 +77,17 @@ build: false
 test_script:
    - ps: |
       if ($env:RUN_CONFORMANCE -eq 0) {
-          exit python -m test
+          python -m test
       }
       else
       {
          # Bounce through pygame installation to run gen_conformance
-         cd conformance
-         pip show pygame_cffi
          pip uninstall -y pygame_cffi
          pip install pygame
-         python gen_conformance.py
+         python conformance\gen_conformance.py
          pip uninstall -y pygame
-         cd ..
          pip install -e .
-         cd conformance
-         exit python test_conformance.py
+         python conformance\test_conformance.py
       }
 
 # Appveyor's default artifact publishing only works if the build is successful,
