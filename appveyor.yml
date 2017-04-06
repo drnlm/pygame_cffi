@@ -93,13 +93,7 @@ test_script:
          pip install -e .
          cd conformance
          python test_conformance.py
-         $exitcode = $LastExitCode
-         if ($exitcode -eq 1) {
-            # copy images as artifacts
-            Get-ChildItem results\*.png -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-         }
-         cd ..
-         exit $exitcode
+         exit $LastExitCode
       }
 
 # Appveyor's default artifact publishing only works if the build is successful,
