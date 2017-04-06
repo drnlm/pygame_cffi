@@ -84,10 +84,12 @@ test_script:
       {
          # Bounce through pygame installation to run gen_conformance
          cd conformance
-         pip uninstall pygame_cffi
-         pip install pygame
+         pip show pygame_cffi
+         pip uninstall -y pygame_cffi
+         echo "Here"
+         pip install -y pygame
          python gen_conformance.py --verbose
-         pip uninstall pygame
+         pip uninstall -y pygame
          cd ..
          pip install -e .
          python setup.py bdist_wheel
