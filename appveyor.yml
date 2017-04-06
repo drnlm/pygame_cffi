@@ -8,27 +8,51 @@ environment:
   matrix:
     - PYTHON: "C:\\Python27"
       PYTHON_ARCH: "32"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python34"
       PYTHON_ARCH: "32"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python35"
       PYTHON_ARCH: "32"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python36"
       PYTHON_ARCH: "32"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python27-x64"
       PYTHON_ARCH: "64"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python34-x64"
       PYTHON_ARCH: "64"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python35-x64"
       PYTHON_ARCH: "64"
+      RUN_CONFORMANCE: "n"
 
     - PYTHON: "C:\\Python36-x64"
       PYTHON_ARCH: "64"
+      RUN_CONFORMANCE: "n"
+
+    - PYTHON: "C:\\Python27"
+      PYTHON_ARCH: "32"
+      RUN_CONFORMANCE: "y"
+
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_ARCH: "64"
+      RUN_CONFORMANCE: "y"
+
+    - PYTHON: "C:\\Python36"
+      PYTHON_ARCH: "32"
+      RUN_CONFORMANCE: "y"
+
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_ARCH: "64"
+      RUN_CONFORMANCE: "y"
 
 init:
   - "ECHO %PYTHON% %PYTHON_ARCH%"
@@ -51,7 +75,31 @@ install:
 build: false
 
 test_script:
-  - "python -m test"
+   - ps: |
+      if ($RUN_CONFORMANCE -eq n) {
+          python -m test
+          exit $LastExitCode
+      }
+      else
+      {
+         # Bounce through pygame installation to run gen_conformance
+         cd conformance
+         pip uninstall pygame_cffi
+         pip install pygame
+         python gen_conformance.py --verbose
+         pip uninstall pygame
+         cd ..
+         pip install -e .
+         python setup.py bdist_wheel
+         cd conformance
+         python test_conformance.py --verbose
+         $exitcode = $LastExitCode
+         if ($exitcode -eq 1) {
+            # copy images as artifacts
+            Get-ChildItem results\*.png -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+         }
+         exit $exitcode
+      }
 
 # Appveyor's default artifact publishing only works if the build is successful,
 # but we want artifacts from failures until the windows issues are resolved,
