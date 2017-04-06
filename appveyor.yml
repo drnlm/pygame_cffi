@@ -86,19 +86,22 @@ test_script:
          cd conformance
          pip show pygame_cffi
          pip uninstall -y pygame_cffi
-         echo "Here"
          pip install pygame
          python gen_conformance.py --verbose
          pip uninstall -y pygame
          cd ..
          pip install -e .
          cd conformance
+         echo "Here"
+         ls
          python test_conformance.py --verbose
+         echo "There"
          $exitcode = $LastExitCode
          if ($exitcode -eq 1) {
             # copy images as artifacts
             Get-ChildItem results\*.png -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
          }
+         cd ..
          exit $exitcode
       }
 
