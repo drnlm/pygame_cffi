@@ -76,7 +76,7 @@ build: false
 
 test_script:
    - ps: |
-      if ($RUN_CONFORMANCE -eq 0) {
+      if ($env:RUN_CONFORMANCE -eq 0) {
           python -m test
           exit $LastExitCode
       }
