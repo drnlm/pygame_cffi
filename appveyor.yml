@@ -87,23 +87,19 @@ test_script:
          pip show pygame_cffi
          pip uninstall -y pygame_cffi
          pip install pygame
-         python gen_conformance.py --verbose
+         python gen_conformance.py
          pip uninstall -y pygame
          cd ..
          pip install -e .
          cd conformance
-         echo "Here"
-         ls
-         python test_conformance.py --list-tests
-         python test_conformance.py --verbose
-         echo "There"
-         #$exitcode = $LastExitCode
-         #if ($exitcode -eq 1) {
-         #   # copy images as artifacts
-         #   Get-ChildItem results\*.png -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-         #}
-         #cd ..
-         #exit $exitcode
+         python test_conformance.py
+         $exitcode = $LastExitCode
+         if ($exitcode -eq 1) {
+            # copy images as artifacts
+            Get-ChildItem results\*.png -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+         }
+         cd ..
+         exit $exitcode
       }
 
 # Appveyor's default artifact publishing only works if the build is successful,
