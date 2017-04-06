@@ -24,6 +24,7 @@ import os
 import sys
 import pygame
 
+print("Running test conformance")
 
 if __name__ == "__main__":
 
@@ -32,12 +33,16 @@ if __name__ == "__main__":
               "test images")
         sys.exit(1)
 
+    print("results exist")
+
     # Far from the smartest test for this, but good enough for my purposes
     if not hasattr(pygame, '_sdl'):
         # If you want to override this, do so manually
         print("This looks like the pygame module. Please test the images"
               " with pygame_cffi.")
         sys.exit(1)
+
+    print("Using pygame_Cffi")
 
     opts = cmd_args("Test pygame_cffi output against the generated files")
 
@@ -53,6 +58,8 @@ if __name__ == "__main__":
         if not test_conformance(test_func, opts.verbose):
             failed += 1
             passed = False
+
+    print("run tests")
 
     if not passed:
         print("FAILURE: %d out of %d tests failed" % (failed, run))

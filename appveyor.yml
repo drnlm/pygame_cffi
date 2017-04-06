@@ -94,7 +94,7 @@ test_script:
          cd conformance
          echo "Here"
          ls
-         python gen_conformance.py --verbose
+         python test_conformance.py --list-tests
          python test_conformance.py --verbose
          echo "There"
          #$exitcode = $LastExitCode
