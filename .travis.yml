@@ -7,6 +7,7 @@ python:
 - 3.6
 - nightly
 - pypy
+env:
 # Not useable until PyPy 2.6 is available
 #- pypy3
 matrix:
@@ -19,13 +20,17 @@ matrix:
         env: RUN_CONFORMANCE="y"
       - python: "3.6"
         env: SDL_VIDEODRIVER=dummy
-
-
-    allow_failures:
-      - python: "3.6"
+      - python: 2.7
         env: FAIL_EXPECTED="y"
-      - python: "2.7"
+      - python: 3.6
         env: FAIL_EXPECTED="y"
+
+   allow_failures:
+      - python: 3.6
+        env: FAIL_EXPECTED="y"
+      - python: 2.7
+        env: FAIL_EXPECTED="y"
+
 # We force an overwrite of the virtualenv so we run the tests with the
 # pypy from the ppa
 before_install:
