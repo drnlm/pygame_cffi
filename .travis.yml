@@ -19,6 +19,12 @@ matrix:
         env: RUN_CONFORMANCE="y"
       - python: "3.6"
         env: SDL_VIDEODRIVER=dummy
+      - python: "3.6"
+        env: FAIL_EXPECTED="y"
+      - python: "2.7"
+        env: FAIL_EXPECTED="y"
+    allowed_failures:
+       - env: FAIL_EXPECTED="y"
 # We force an overwrite of the virtualenv so we run the tests with the
 # pypy from the ppa
 before_install:
@@ -37,6 +43,8 @@ script:
    - |
       if [ -n "$SDL_VIDEODRIVER" ]; then
           AUDIODEV=null python -m test
+      elif [ -n "$FAIL_EXPECTED" ]; then
+          AUDIODEV=null xvfb-run python -m test -E
       elif [ -z "$RUN_CONFORMANCE" ]; then
           AUDIODEV=null xvfb-run python -m test
       else
