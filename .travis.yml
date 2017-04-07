@@ -23,7 +23,7 @@ matrix:
         env: FAIL_EXPECTED="y"
       - python: "2.7"
         env: FAIL_EXPECTED="y"
-    allow_failures:
+    allow_failure:
        - env: FAIL_EXPECTED="y"
 # We force an overwrite of the virtualenv so we run the tests with the
 # pypy from the ppa
