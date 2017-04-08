@@ -50,7 +50,7 @@ script:
       if [ -n "$SDL_VIDEODRIVER" ]; then
           AUDIODEV=null python -m test
       elif [ -z "$RUN_CONFORMANCE" ]; then
-          AUDIODEV=null xvfb-run python -m test "$FAIL_EXPECTED"
+          AUDIODEV=null xvfb-run python -m test $FAIL_EXPECTED
       else
          # We bounce around a bit so we can run gen_conformance with
          # pygame, and test_conformance with pygame_cffi
